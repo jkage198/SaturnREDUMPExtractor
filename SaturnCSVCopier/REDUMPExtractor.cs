@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.IO.Compression;
 using PowerArgs;
@@ -20,7 +21,7 @@ namespace SaturnREDUMPExtractor
         {
             Parser parser = new Parser();
             GameEntryCollection gameEntryCollection = new GameEntryCollection(parser.DirectoryToGameEntryList(Directory.GetCurrentDirectory()));
-            Console.WriteLine("\nGenerating CSV with the following:\n{0}", gameEntryCollection.Statistics.ToString());
+            Console.WriteLine("Generating CSV with the following:\n{0}", gameEntryCollection.Statistics.ToString());
             parser.GameEntryListToCSV(gameEntryCollection.GameEntries, args.csvFilename);
         }
 
@@ -29,7 +30,8 @@ namespace SaturnREDUMPExtractor
         {
             Parser parser = new Parser();
             GameEntryCollection gameEntryCollection = new GameEntryCollection(parser.CSVToGameEntryList(args.sourceCSV));
-            
+            Console.WriteLine("Extracting the following:\n{0}", gameEntryCollection.Statistics.ToString());
+            PromptQuitIfNotKey("\nProceed with extraction?\n", ConsoleKey.Y);
             ExtractGames(gameEntryCollection, args.outputDirectory, args.categorize);
         }
 
@@ -38,6 +40,8 @@ namespace SaturnREDUMPExtractor
         {
             Parser parser = new Parser();
             GameEntryCollection gameEntryCollection = new GameEntryCollection(parser.DirectoryToGameEntryList(Directory.GetCurrentDirectory()));
+            Console.WriteLine("Extracting the following:\n{0}", gameEntryCollection.Statistics.ToString());
+            PromptQuitIfNotKey("\nProceed with extraction?\n", ConsoleKey.Y);
             ExtractGames(gameEntryCollection, args.outputDirectory, args.categorize);
         }
 
@@ -89,6 +93,16 @@ namespace SaturnREDUMPExtractor
             }
         }
 
+        public static void PromptQuitIfNotKey(String prepend, ConsoleKey proceedKey)
+        {
+            Console.WriteLine(prepend + "Press {0} to continue or any other key to Quit", proceedKey);
+            ConsoleKeyInfo consoleKeyInfo = Console.ReadKey();
+            if (consoleKeyInfo.Key != proceedKey)
+            {
+                Environment.Exit(0);
+            }
+            Console.WriteLine("\n");
+        }
     }
 
     public class ExtractArguments
