@@ -6,7 +6,8 @@ Supports multi-disc extraction under a single folder.
 Supports splitting by region sub-folders.
 
 
-Usage:
+**Usage:**
+
 (run exe from same directory as zippped games)
 
 1. Extract all games from current working directory to target directory, split by category<br />
@@ -17,9 +18,9 @@ Usage:
 
 3. Extract all games from current working directory to target directory based on input CSV file, split by category<br />
 ```SaturnREDUMPExtractor.exe -extract -s mygamelist.csv -o F:\Saturn -r```
+<br/>
 
-
-Examples
+**Examples**
 
 Extract every zip file in the REDUMP folder to path F:\Saturn
 1. Copy executable into REDUMP folder
