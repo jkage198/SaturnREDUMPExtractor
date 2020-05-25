@@ -1,9 +1,9 @@
 # SaturnREDUMPExtractor
 Quick tool to extract REDUMP Saturn set.
 
-Supports/generates CSV file containing list of all archives. Rows set to TRUE will be batch extracted.
-Supports multi-disc extraction under a single folder.
-Supports splitting by region sub-folders.
+* *Supports/generates CSV file containing list of all archives. Rows set to TRUE will be batch extracted.*
+* *Supports multi-disc extraction under a single folder.*
+* *Supports splitting by region sub-folders (EU/US/JP/Other).*
 
 
 **Usage:**
