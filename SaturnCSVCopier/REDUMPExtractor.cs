@@ -17,38 +17,38 @@ namespace SaturnREDUMPExtractor
         public bool Help { get; set; }
 
         [ArgActionMethod, ArgDescription("Generates an input-compatibe CSV file from the current working directory")]
-        public void generateCSV(CSVBuilderArguments args)
+        public void GenerateCSV(CSVBuilderArguments args)
         {
             Parser parser = new Parser();
             GameEntryCollection gameEntryCollection = new GameEntryCollection(parser.DirectoryToGameEntryList(Directory.GetCurrentDirectory()));
             Console.WriteLine("Generating CSV with the following:\n{0}", gameEntryCollection.Statistics.ToString());
-            parser.GameEntryListToCSV(gameEntryCollection.GameEntries, args.csvFilename);
+            parser.GameEntryListToCSV(gameEntryCollection.GameEntries, args.CsvFilename);
         }
 
         [ArgActionMethod, ArgDescription("Extracts games to target directory as defined in input CSV file")]
-        public void extract(ExtractArguments args)
+        public void Extract(ExtractArguments args)
         {
             Parser parser = new Parser();
-            GameEntryCollection gameEntryCollection = new GameEntryCollection(parser.CSVToGameEntryList(args.sourceCSV));
+            GameEntryCollection gameEntryCollection = new GameEntryCollection(parser.CSVToGameEntryList(args.SourceCSV));
             Console.WriteLine("Extracting the following:\n{0}", gameEntryCollection.Statistics.ToString());
             PromptQuitIfNotKey("\nProceed with extraction?\n", ConsoleKey.Y);
-            ExtractGames(gameEntryCollection, args.outputDirectory, args.categorize);
+            ExtractGames(gameEntryCollection, args.OutputDirectory, args.Categorize);
         }
 
         [ArgActionMethod, ArgDescription("Extracts all games in working directory to target directory")]
-        public void extractAll(ExtractAllArguments args)
+        public void ExtractAll(ExtractAllArguments args)
         {
             Parser parser = new Parser();
             GameEntryCollection gameEntryCollection = new GameEntryCollection(parser.DirectoryToGameEntryList(Directory.GetCurrentDirectory()));
             Console.WriteLine("Extracting the following:\n{0}", gameEntryCollection.Statistics.ToString());
             PromptQuitIfNotKey("\nProceed with extraction?\n", ConsoleKey.Y);
-            ExtractGames(gameEntryCollection, args.outputDirectory, args.categorize);
+            ExtractGames(gameEntryCollection, args.OutputDirectory, args.Categorize);
         }
 
         public static void ExtractGames(GameEntryCollection gameEntryCollection, string targetDirectory, bool splitByRegion)
         {
             int currentGameCount = 1;
-            int toCopyTotalArchives = gameEntryCollection.Statistics.totalArchivesToExtract;
+            int toCopyTotalArchives = gameEntryCollection.Statistics.TotalArchivesToExtract;
 
             foreach (GameEntry ge in gameEntryCollection.GameEntries)
             {
@@ -57,11 +57,11 @@ namespace SaturnREDUMPExtractor
 
                 if (ge.IsMultidisc)
                 {
-                    foreach (MultidiscEntry mde in ge.multidiscRefs)
+                    foreach (MultidiscEntry mde in ge.MultidiscRefs)
                     {
-                        sourceZipFile = Directory.GetCurrentDirectory() + "\\" + mde.discTitle + ".zip";
-                        Console.Write("{0}/{1} Unzipping {2}...", currentGameCount++, toCopyTotalArchives, mde.discTitle + ".zip");
-                        unzipGame(sourceZipFile, outputDirectory);
+                        sourceZipFile = Directory.GetCurrentDirectory() + "\\" + mde.DiscTitle + ".zip";
+                        Console.Write("{0}/{1} Unzipping {2}...", currentGameCount++, toCopyTotalArchives, mde.DiscTitle + ".zip");
+                        UnzipGame(sourceZipFile, outputDirectory);
                     }
 
                 }
@@ -69,14 +69,14 @@ namespace SaturnREDUMPExtractor
                 {
                     sourceZipFile = Directory.GetCurrentDirectory() + "\\" + ge.Title + ".zip";
                     Console.Write("{0}/{1} Unzipping {2}...", currentGameCount++, toCopyTotalArchives, ge.Title + ".zip");
-                    unzipGame(sourceZipFile, outputDirectory);
+                    UnzipGame(sourceZipFile, outputDirectory);
                 }
             }
 
             Console.WriteLine("Finished extracting.");
         }
 
-        public static void unzipGame(string sourceZipFilename, string targetDirectory)
+        public static void UnzipGame(string sourceZipFilename, string targetDirectory)
         {
 
             if (File.Exists(sourceZipFilename))
@@ -108,18 +108,18 @@ namespace SaturnREDUMPExtractor
     public class ExtractArguments
     {
         [ArgRequired, ArgDescription("CSV file containing which files to extract"), ArgPosition(1), ArgDefaultValue("_Input.CSV")]
-        public string sourceCSV { get; set; }
+        public string SourceCSV { get; set; }
         [ArgRequired, ArgDescription("Target directory where to extract archives"), ArgPosition(2)]
-        public string outputDirectory { get; set; }
+        public string OutputDirectory { get; set; }
         [ArgShortcut("r"), ArgDescription("Categorize extracted games by Region folders (EU/US/JP/Other)"), ArgPosition(3), ArgDefaultValue(false)]
-        public bool categorize { get; set; }
+        public bool Categorize { get; set; }
     }
 
     public class ExtractAllArguments
     {
         [ArgRequired, ArgDescription("Target directory where to extract archives"), ArgPosition(2)]
-        public string outputDirectory { get; set; }
+        public string OutputDirectory { get; set; }
         [ArgShortcut("r"), ArgDescription("Categorize extracted games by Region folders (EU/US/JP/Other)"), ArgPosition(3), ArgDefaultValue(false)]
-        public bool categorize { get; set; }
+        public bool Categorize { get; set; }
     }
 }

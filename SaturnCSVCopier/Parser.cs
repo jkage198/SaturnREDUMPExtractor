@@ -35,7 +35,7 @@ namespace SaturnREDUMPExtractor
             foreach (FileInfo f in fileInfo)
             {
                 ge = new GameEntry();
-                gameTitle = f.Name.Substring(0, f.Name.Length - 4);
+                gameTitle = f.Name[0..^4];
                 
                 ge.Title = gameTitle;
                 ge.Size = f.Length / 1048576;
@@ -54,12 +54,12 @@ namespace SaturnREDUMPExtractor
                     if (existingGameEntry != null)
                     {
                         // exists
-                        existingGameEntry.addMultidiscRef(ge.Title, ge.Size);
+                        existingGameEntry.AddMultidiscRef(ge.Title, ge.Size);
                     }
                     else
                     {
                         // doesn't exist
-                        ge.addMultidiscRef(ge.Title, ge.Size);
+                        ge.AddMultidiscRef(ge.Title, ge.Size);
                         ge.Title = multiDiscTitle;
                         ge.Size = 0;
                         gameEntryList.Add(ge);
@@ -77,14 +77,16 @@ namespace SaturnREDUMPExtractor
         // Generate a CSV file on disk from a Game Entry list object
         public void GameEntryListToCSV(List<GameEntry> gameEntryList, string csvFilename)
         {
-            List<string> csvRows = new List<string>();
-            csvRows.Add(CSV_HEADERS);
+            List<string> csvRows = new List<string>
+            {
+                CSV_HEADERS
+            };
 
             foreach (GameEntry ge in gameEntryList)
             {
                 if (ge.IsMultidisc)
                 {
-                    foreach (MultidiscEntry mde in ge.multidiscRefs)
+                    foreach (MultidiscEntry mde in ge.MultidiscRefs)
                     {
                         csvRows.Add(GameEntryToCSVRow(ge, mde));
                     }
@@ -124,8 +126,8 @@ namespace SaturnREDUMPExtractor
         private string GameEntryToCSVRow(GameEntry ge, MultidiscEntry mde)
         {
             StringBuilder sb = new StringBuilder();
-            string gameTitle = (mde == null) ? ge.Title : mde.discTitle;
-            float gameSize = (mde == null) ? ge.Size : mde.discSizeInMB;
+            string gameTitle = (mde == null) ? ge.Title : mde.DiscTitle;
+            float gameSize = (mde == null) ? ge.Size : mde.DiscSizeInMB;
 
             if (gameTitle.Contains(","))
             {
@@ -171,12 +173,12 @@ namespace SaturnREDUMPExtractor
                         if (existingGameEntry != null)
                         {
                             // exists
-                            existingGameEntry.addMultidiscRef(ge.Title, ge.Size);
+                            existingGameEntry.AddMultidiscRef(ge.Title, ge.Size);
                         }
                         else
                         {
                             // doesn't exist
-                            ge.addMultidiscRef(ge.Title, ge.Size);
+                            ge.AddMultidiscRef(ge.Title, ge.Size);
                             ge.Title = multiDiscTitle;
                             gameEntryList.Add(ge);
                         }
@@ -200,13 +202,13 @@ namespace SaturnREDUMPExtractor
 
             while (match.Success)
             {
-                switch (match.Value)
+                return match.Value switch
                 {
-                    case CATEGORY_JAPAN: return GameEntry.GameRegion.JP;
-                    case CATEGORY_USA: return GameEntry.GameRegion.USA;
-                    case CATEGORY_EUROPE: return GameEntry.GameRegion.EU;
-                    default : return GameEntry.GameRegion.Other;
-                }
+                    CATEGORY_JAPAN => GameEntry.GameRegion.JP,
+                    CATEGORY_USA => GameEntry.GameRegion.USA,
+                    CATEGORY_EUROPE => GameEntry.GameRegion.EU,
+                    _ => GameEntry.GameRegion.Other,
+                };
             }
 
             return GameEntry.GameRegion.Unknown;
@@ -215,20 +217,20 @@ namespace SaturnREDUMPExtractor
 
     public class ParsingStatistics
     {
-        public int totalArchives { get; set; }
-        public float totalArchivesSizeInMB { get; set; }
-        public int totalArchivesToExtract { get; set; }
-        public float totalArchivesToExtractSizeInMB { get; set; }
-        public int totalGamesToExctract { get; set; }
+        public int TotalArchives { get; set; }
+        public float TotalArchivesSizeInMB { get; set; }
+        public int TotalArchivesToExtract { get; set; }
+        public float TotalArchivesToExtractSizeInMB { get; set; }
+        public int TotalGamesToExctract { get; set; }
 
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append("Total Archives: ").Append(totalArchives);
-            sb.Append("\nTotal Archives Size (in MB): ").Append(totalArchivesSizeInMB);
-            sb.Append("\nTotal Archives set to Extract: ").Append(totalArchivesToExtract);
-            sb.Append("\nTotal Extract compressed size (in MB): ").Append(totalArchivesToExtractSizeInMB);
-            sb.Append("\nTotal Games set to extract: ").Append(totalGamesToExctract);
+            sb.Append("Total Archives: ").Append(TotalArchives);
+            sb.Append("\nTotal Archives Size (in MB): ").Append(TotalArchivesSizeInMB);
+            sb.Append("\nTotal Archives set to Extract: ").Append(TotalArchivesToExtract);
+            sb.Append("\nTotal Extract compressed size (in MB): ").Append(TotalArchivesToExtractSizeInMB);
+            sb.Append("\nTotal Games set to extract: ").Append(TotalGamesToExctract);
             return sb.ToString();
         }
     }
@@ -236,6 +238,6 @@ namespace SaturnREDUMPExtractor
     public class CSVBuilderArguments
     {
         [ArgRequired, ArgDescription("CSV filename to assign"), ArgPosition(1), ArgDefaultValue("_Input.CSV")]
-        public string csvFilename { get; set; }
+        public string CsvFilename { get; set; }
     }
 }

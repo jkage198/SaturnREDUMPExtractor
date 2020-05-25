@@ -10,7 +10,7 @@ namespace SaturnCSVCopier
         public GameRegion Region { get; set; }
         public GameType Type { get; set; }
 
-        public List<MultidiscEntry> multidiscRefs { get; set; }
+        public List<MultidiscEntry> MultidiscRefs { get; set; }
 
         public enum GameRegion
         {
@@ -35,18 +35,18 @@ namespace SaturnCSVCopier
         {
             get
             {
-                return (multidiscRefs == null) ? false : true;
+                return MultidiscRefs != null;
             }
         }
 
 
-        public void addMultidiscRef(string multidiscRef, float size)
+        public void AddMultidiscRef(string multidiscRef, float size)
         {
-            if (multidiscRefs == null)
+            if (MultidiscRefs == null)
             {
-                multidiscRefs = new List<MultidiscEntry>();
+                MultidiscRefs = new List<MultidiscEntry>();
             }            
-            multidiscRefs.Add(new MultidiscEntry(multidiscRef, size));
+            MultidiscRefs.Add(new MultidiscEntry(multidiscRef, size));
         }
 
         public override string ToString()
@@ -57,13 +57,13 @@ namespace SaturnCSVCopier
 
     public class MultidiscEntry
     {
-        public string discTitle { get; }
-        public float discSizeInMB { get; }
+        public string DiscTitle { get; }
+        public float DiscSizeInMB { get; }
 
         public MultidiscEntry(string title, float size)
         {
-            discTitle = title;
-            discSizeInMB = size;
+            DiscTitle = title;
+            DiscSizeInMB = size;
         }
 
     }
