@@ -15,7 +15,7 @@ namespace SaturnREDUMPExtractor
     {
         private const string REGEX_REGION = "\\(Japan\\)|\\(USA\\)|\\(Europe\\)|\\(Germany\\)|\\(Spain\\)|\\(France\\)|\\(Korea\\)|\\(Taiwan\\)|\\(Brazil\\)|\\(Italy\\)";
         private const string REGEX_MULTIDISC = "\\(Disc ([0-9A-Z]|I+)\\)";
-        private const string CSV_HEADERS = "title,size,region,toCopy";
+        private const string CSV_HEADERS = "Title,Size,Region,ToExtract";
         private const string CATEGORY_JAPAN = "(Japan)";
         private const string CATEGORY_USA = "(USA)";
         private const string CATEGORY_EUROPE = "(Europe)";
@@ -96,7 +96,7 @@ namespace SaturnREDUMPExtractor
 
             if (File.Exists(csvFilename))
             {
-                Console.WriteLine("\n{0}.csv already exists. \nPress Y to overwrite and continue or Q to Quit.", csvFilename);
+                Console.WriteLine("\n{0} already exists. \nPress Y to overwrite and continue or Q to Quit.", csvFilename);
                 ConsoleKeyInfo consoleKeyInfo = Console.ReadKey();
                 if (consoleKeyInfo.Key == ConsoleKey.Q)
                 {
