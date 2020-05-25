@@ -9,11 +9,11 @@ Supports splitting by region sub-folders.
 Typical Usage:
 (run exe from same directory as zippped games)
 
-1. Extract all games from current working directory to target directory, split by category
+1. Extract all games from current working directory to target directory, split by category<br />
 ```SaturnREDUMPExtractor.exe - extractAll -o F:\Saturn -r```
 
-2. Generate game list CSV file
+2. Generate game list CSV file<br />
 ```SaturnREDUMPExtractor.exe -generateCSV mygamelist.csv```
 
-3. Extract all games from current working directory to target directory based on input CSV file, split by category
+3. Extract all games from current working directory to target directory based on input CSV file, split by category<br />
 ```SaturnREDUMPExtractor.exe -extract -s mygamelist.csv -o F:\Saturn -r```
