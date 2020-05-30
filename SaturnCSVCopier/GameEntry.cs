@@ -9,6 +9,7 @@ namespace SaturnCSVCopier
         public bool ToExtract { get; set; }
         public GameRegion Region { get; set; }
         public GameType Type { get; set; }
+        public string ArchiveExtension { get; set; }
 
         public List<MultidiscEntry> MultidiscRefs { get; set; }
 

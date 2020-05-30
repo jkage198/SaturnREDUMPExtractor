@@ -10,6 +10,7 @@
     <PackageReference Include="FluentArgs" Version="0.9.6" />
     <PackageReference Include="Microsoft.Extensions.CommandLineUtils" Version="1.1.1" />
     <PackageReference Include="PowerArgs" Version="3.6.0" />
+    <PackageReference Include="SevenZipExtractor" Version="1.0.15" />
   </ItemGroup>
 
 </Project>

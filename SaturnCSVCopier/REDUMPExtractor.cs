@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Globalization;
 using System.IO;
 using System.IO.Compression;
 using PowerArgs;
 using SaturnCSVCopier;
+using SevenZipExtractor;
 
 namespace SaturnREDUMPExtractor
 {
@@ -52,44 +52,59 @@ namespace SaturnREDUMPExtractor
 
             foreach (GameEntry ge in gameEntryCollection.GameEntries)
             {
-                string sourceZipFile;
+                string sourceArchiveFile;
                 var outputDirectory = targetDirectory + "\\" + ((splitByRegion) ? ge.Region.ToString() : "") + "\\" + ge.Title;
 
                 if (ge.IsMultidisc)
                 {
                     foreach (MultidiscEntry mde in ge.MultidiscRefs)
                     {
-                        sourceZipFile = Directory.GetCurrentDirectory() + "\\" + mde.DiscTitle + ".zip";
-                        Console.Write("{0}/{1} Unzipping {2}...", currentGameCount++, toCopyTotalArchives, mde.DiscTitle + ".zip");
-                        UnzipGame(sourceZipFile, outputDirectory);
+                        sourceArchiveFile = Directory.GetCurrentDirectory() + "\\" + mde.DiscTitle;
+                        Console.Write("{0}/{1} Extracting {2}...", currentGameCount++, toCopyTotalArchives, mde.DiscTitle + ge.ArchiveExtension);
+                        ExtractGame(sourceArchiveFile, outputDirectory, ge.ArchiveExtension);
                     }
-
                 }
                 else
                 {
-                    sourceZipFile = Directory.GetCurrentDirectory() + "\\" + ge.Title + ".zip";
-                    Console.Write("{0}/{1} Unzipping {2}...", currentGameCount++, toCopyTotalArchives, ge.Title + ".zip");
-                    UnzipGame(sourceZipFile, outputDirectory);
+                    sourceArchiveFile = Directory.GetCurrentDirectory() + "\\" + ge.Title;
+                    Console.Write("{0}/{1} Extracting {2}...", currentGameCount++, toCopyTotalArchives, ge.Title + ge.ArchiveExtension);
+                    ExtractGame(sourceArchiveFile, outputDirectory, ge.ArchiveExtension);
                 }
             }
 
             Console.WriteLine("Finished extracting.");
         }
 
-        public static void UnzipGame(string sourceZipFilename, string targetDirectory)
+        public static void ExtractGame(string sourceArchiveName, string targetDirectory, string archiveExtension)
         {
 
-            if (File.Exists(sourceZipFilename))
+            if (File.Exists(sourceArchiveName + archiveExtension))
             {
                 stopwatch.Start();
-                ZipFile.ExtractToDirectory(sourceZipFilename, targetDirectory, true);
+
+                //TODO: simplify or switch to enum
+                if (archiveExtension == Parser.ARCHIVE_EXTENSIONS[0])
+                {
+                    ZipFile.ExtractToDirectory(sourceArchiveName + archiveExtension, targetDirectory, true);
+                } else
+                {
+                    if (archiveExtension == Parser.ARCHIVE_EXTENSIONS[1])
+                    {
+                        using ArchiveFile archiveFile = new ArchiveFile(sourceArchiveName + archiveExtension);
+                        archiveFile.Extract(targetDirectory);
+                    } else
+                    {
+                        Console.WriteLine("Skipping {0} - unsupported archive format.", sourceArchiveName + archiveExtension);
+                    }
+                }
+
                 stopwatch.Stop();
                 Console.WriteLine("[{0:mm\\:ss}] DONE", stopwatch.Elapsed);
                 stopwatch.Reset();
             }
             else
             {
-                Console.WriteLine("File not found! [" + sourceZipFilename + "].");
+                Console.WriteLine("File not found! [" + sourceArchiveName + "].");
             }
         }
 

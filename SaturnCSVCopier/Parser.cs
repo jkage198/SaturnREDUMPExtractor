@@ -19,12 +19,13 @@ namespace SaturnREDUMPExtractor
         private const string CATEGORY_JAPAN = "(Japan)";
         private const string CATEGORY_USA = "(USA)";
         private const string CATEGORY_EUROPE = "(Europe)";
+        public static readonly string[] ARCHIVE_EXTENSIONS = {".zip",".7z"};
 
         // Returns a list of GameEntries from a specified directory
         public List<GameEntry> DirectoryToGameEntryList(string directory)
         {
             DirectoryInfo d = new DirectoryInfo(directory);
-            FileInfo[] fileInfo = d.GetFiles("*.zip");
+            FileInfo[] fileInfo = d.EnumerateFiles().Where(f => ARCHIVE_EXTENSIONS.Contains(f.Extension.ToLower())).ToArray();
             List<string> inputList = fileInfo.OfType<string>().ToList();
             List<GameEntry> gameEntryList = new List<GameEntry>();
 
@@ -35,11 +36,12 @@ namespace SaturnREDUMPExtractor
             foreach (FileInfo f in fileInfo)
             {
                 ge = new GameEntry();
-                gameTitle = f.Name[0..^4];
+                gameTitle = f.Name[0..^(f.Extension.Length)];
                 
                 ge.Title = gameTitle;
                 ge.Size = f.Length / 1048576;
                 ge.Region = ExtractRegion(gameTitle);
+                ge.ArchiveExtension = f.Extension;
                 ge.ToExtract = true;
 
                 Match multidiscRegex = regex.Match(ge.Title);
