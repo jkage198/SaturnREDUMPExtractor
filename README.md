@@ -6,6 +6,10 @@ Quick tool to extract REDUMP Saturn set.
 * *Supports splitting by region sub-folders (EU/US/JP/Other).*
 <br/>
 
+**Requirement:**
+.Net Core Framework Runtime
+<br/>
+
 **Usage:**
 
 (run exe from same directory as zippped games)
@@ -27,7 +31,7 @@ Extract every zip file in the REDUMP folder to path F:\Saturn
 2. Run executable through command line using the following:<br/>
 ```SaturnREDUMPExtractor.exe -extractAll -o F:\Saturn```
 
-Extract only some zip files from the REDUMP to path F:\Saturn and categorize by region
+Use a CSV to extract only select zip files from the REDUMP to path F:\Saturn and categorize by region
 1. Copy executable into REDUMP folder
 2. Run executable through command line using the following:<br/>
 ```SaturnREDUMPExtractor.exe -generateCSV mygamelist.csv```
