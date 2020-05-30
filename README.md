@@ -1,5 +1,5 @@
 # SaturnREDUMPExtractor
-Quick tool to extract REDUMP Saturn set.
+Quick tool to extract REDUMP Saturn/Dreamcast zipped/7zipped set.
 
 * *Supports/generates CSV file containing list of all archives. Rows set to TRUE will be batch extracted.*
 * *Supports multi-disc extraction under a single folder.*
