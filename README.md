@@ -36,6 +36,10 @@ Use a CSV to extract only select zip files from the REDUMP to path F:\Saturn and
 2. Run executable through command line using the following:<br/>
 ```SaturnREDUMPExtractor.exe -generateCSV mygamelist.csv```
 3. Open mygamelist.csv with your editor of choice and set to TRUE or FALSE the games to extract. Save and close.
+
+![CSV example](https://user-images.githubusercontent.com/3223801/83320953-6988ab00-a24c-11ea-9c61-093e0b21817f.PNG "CSV Example")
+
+
 4. Run executable through command line using the following:<br/>
 ```SaturnREDUMPExtractor.exe -extract -s mygamelist.csv -o F:\Saturn -r```
 
