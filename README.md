@@ -14,32 +14,30 @@ Quick tool to extract REDUMP Saturn/Dreamcast zipped/7zipped set.
 
 (run exe from same directory as zippped games)
 
-1. Extract all games from current working directory to target directory, split by category<br />
-```SaturnREDUMPExtractor.exe -extractAll -o F:\Saturn -r```
+1. Extract all games from source directory to target directory, split by category<br />
+```SaturnREDUMPExtractor.exe extractAll -i <source directory> -o <target directory> -r```
 
 2. Generate game list CSV file<br />
-```SaturnREDUMPExtractor.exe -generateCSV mygamelist.csv```
+```SaturnREDUMPExtractor.exe generateCSV -i <source directory> -c mygamelist.csv```
 
-3. Extract all games from current working directory to target directory based on input CSV file, split by category<br />
-```SaturnREDUMPExtractor.exe -extract -s mygamelist.csv -o F:\Saturn -r```
+3. Extract all games from source directory to target directory based on input CSV file, split by category<br />
+```SaturnREDUMPExtractor.exe extract -i <source> -o <target> -s mygamelist.csv -r```
 <br/>
 
 **Examples**
 
-Extract every zip file in the REDUMP folder to path F:\Saturn
-1. Copy executable into REDUMP folder
-2. Run executable through command line using the following:<br/>
-```SaturnREDUMPExtractor.exe -extractAll -o F:\Saturn```
+To extract every zip file in the REDUMP folder to path F:\Saturn
+1. Run executable through command line using the following:<br/>
+```SaturnREDUMPExtractor.exe -extractAll -i C:\REDUMP -o F:\Saturn```
 
 Use a CSV to extract only select zip files from the REDUMP to path F:\Saturn and categorize by region
-1. Copy executable into REDUMP folder
-2. Run executable through command line using the following:<br/>
-```SaturnREDUMPExtractor.exe -generateCSV mygamelist.csv```
-3. Open mygamelist.csv with your editor of choice and set to TRUE or FALSE the games to extract. Save and close.
+1. Run executable through command line using the following:<br/>
+```SaturnREDUMPExtractor.exe -generateCSV -i C:\REDUMP -c mygamelist.csv```
+2. Open mygamelist.csv with your editor of choice and set to TRUE or FALSE the games to extract. Save and close.
 
 ![CSV example](https://user-images.githubusercontent.com/3223801/83320953-6988ab00-a24c-11ea-9c61-093e0b21817f.PNG "CSV Example")
 
 
-4. Run executable through command line using the following:<br/>
-```SaturnREDUMPExtractor.exe -extract -s mygamelist.csv -o F:\Saturn -r```
+3. Run executable through command line using the following:<br/>
+```SaturnREDUMPExtractor.exe -extract -i C:\REDUMP -o F:\Saturn -s mygamelist.csv -r```
 
