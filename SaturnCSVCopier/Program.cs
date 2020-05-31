@@ -7,8 +7,11 @@ namespace SaturnCSVCopier
     {
         // TODO filter out demos
         // TODO filter out protos
-        // TODO overwrite warning?
+        // TODO overwrite warning (all?)
         // Unknown category and catching compound regions such as (USA, Brasil)
+        // Input directory as optional parameter
+        // split by initial letter
+        // PAL specific: region split
 
         static void Main(string[] args)
         {

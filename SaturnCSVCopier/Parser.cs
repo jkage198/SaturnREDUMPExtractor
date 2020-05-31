@@ -15,7 +15,7 @@ namespace SaturnREDUMPExtractor
     {
         private const string REGEX_REGION = "\\(Japan\\)|\\(USA\\)|\\(Europe\\)|\\(Germany\\)|\\(Spain\\)|\\(France\\)|\\(Korea\\)|\\(Taiwan\\)|\\(Brazil\\)|\\(Italy\\)";
         private const string REGEX_MULTIDISC = "\\(Disc ([0-9A-Z]|I+)\\)";
-        private const string CSV_HEADERS = "Title,Size,Region,ToExtract";
+        private const string CSV_HEADERS = "Title,Size,ArchiveExtension,Region,ToExtract";
         private const string CATEGORY_JAPAN = "(Japan)";
         private const string CATEGORY_USA = "(USA)";
         private const string CATEGORY_EUROPE = "(Europe)";
@@ -121,7 +121,7 @@ namespace SaturnREDUMPExtractor
             sw.Flush();
             sw.Close();
 
-            Console.WriteLine("\n\nFinished writing CSV: {0}.csv", csvFilename);
+            Console.WriteLine("\n\nFinished writing CSV: {0}", csvFilename);
         }   
         
         // Helper: convert GameEntry to a CSV row (string)
@@ -138,6 +138,7 @@ namespace SaturnREDUMPExtractor
 
             sb.Append(gameTitle).Append(",");
             sb.Append(gameSize).Append(",");
+            sb.Append(ge.ArchiveExtension).Append(",");
             sb.Append(ExtractRegion(gameTitle).ToString()).Append(",");
             sb.Append("TRUE");
             return sb.ToString();
@@ -153,7 +154,7 @@ namespace SaturnREDUMPExtractor
             csv.Configuration.MissingFieldFound = null;
             List<GameEntry> gameEntryList = new List<GameEntry>();
 
-            Regex regex = new Regex("\\(Disc ([0-9A-Z]|I+)\\)");
+            Regex regex = new Regex(REGEX_MULTIDISC);
 
             while (csv.Read())
             {
@@ -239,7 +240,9 @@ namespace SaturnREDUMPExtractor
 
     public class CSVBuilderArguments
     {
-        [ArgRequired, ArgDescription("CSV filename to assign"), ArgPosition(1), ArgDefaultValue("_Input.CSV")]
+        [ArgRequired, ArgDescription("Input directory containing game archives"), ArgPosition(1)]
+        public string InputDirectory { get; set; }
+        [ArgRequired, ArgDescription("CSV filename to assign"), ArgPosition(2), ArgDefaultValue("_Input.CSV")]
         public string CsvFilename { get; set; }
     }
 }
